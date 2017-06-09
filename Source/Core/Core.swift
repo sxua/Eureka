@@ -482,24 +482,24 @@ open class FormViewController: UIViewController, FormViewControllerProtocol, For
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         animateTableView = true
-        let selectedIndexPaths = tableView.indexPathsForSelectedRows ?? []
+        let selectedIndexPaths = tableView?.indexPathsForSelectedRows ?? []
         if !selectedIndexPaths.isEmpty {
-            tableView.reloadRows(at: selectedIndexPaths, with: .none)
+            tableView?.reloadRows(at: selectedIndexPaths, with: .none)
         }
         selectedIndexPaths.forEach {
-            tableView.selectRow(at: $0, animated: false, scrollPosition: .none)
+            tableView?.selectRow(at: $0, animated: false, scrollPosition: .none)
         }
 
         let deselectionAnimation = { [weak self] (context: UIViewControllerTransitionCoordinatorContext) in
             selectedIndexPaths.forEach {
-                self?.tableView.deselectRow(at: $0, animated: context.isAnimated)
+                self?.tableView?.deselectRow(at: $0, animated: context.isAnimated)
             }
         }
 
         let reselection = { [weak self] (context: UIViewControllerTransitionCoordinatorContext) in
             if context.isCancelled {
                 selectedIndexPaths.forEach {
-                    self?.tableView.selectRow(at: $0, animated: false, scrollPosition: .none)
+                    self?.tableView?.selectRow(at: $0, animated: false, scrollPosition: .none)
                 }
             }
         }
