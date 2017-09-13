@@ -513,8 +513,8 @@ class FieldRowCustomizationController : FormViewController {
             
                 <<< NameRow() {
                     $0.title = "Title"
-                    $0.textFieldPercentage = 0.6
-                    $0.placeholder = "textFieldPercentage = 0.6"
+                    $0.titlePercentage = 0.4
+                    $0.placeholder = "titlePercentage = 0.4"
                 }
                 .cellUpdate {
                     $1.cell.textField.textAlignment = .left
@@ -522,8 +522,8 @@ class FieldRowCustomizationController : FormViewController {
                 }
                 <<< NameRow() {
                     $0.title = "Another Title"
-                    $0.textFieldPercentage = 0.6
-                    $0.placeholder = "textFieldPercentage = 0.6"
+                    $0.titlePercentage = 0.4
+                    $0.placeholder = "titlePercentage = 0.4"
                 }
                 .cellUpdate {
                     $1.cell.textField.textAlignment = .left
@@ -531,8 +531,8 @@ class FieldRowCustomizationController : FormViewController {
                 }
                 <<< NameRow() {
                     $0.title = "One more"
-                    $0.textFieldPercentage = 0.7
-                    $0.placeholder = "textFieldPercentage = 0.7"
+                    $0.titlePercentage = 0.3
+                    $0.placeholder = "titlePercentage = 0.3"
                 }
                 .cellUpdate {
                     $1.cell.textField.textAlignment = .left
@@ -1047,9 +1047,9 @@ class FormatterExample : FormViewController {
             if !string.isEmpty, numberStyle == .currency && !string.contains(currencySymbol) {
                 // Check if the currency symbol is at the last index
                 if let formattedNumber = self.string(from: 1),
-                    formattedNumber.substring(from: formattedNumber.index(before: formattedNumber.endIndex)) == currencySymbol {
+                    String(formattedNumber[formattedNumber.index(before: formattedNumber.endIndex)...]) == currencySymbol {
                     // This means the user has deleted the currency symbol. We cut the last number and then add the symbol automatically
-                    str = str.substring(to: str.index(before: str.endIndex))
+                    str = String(str[..<str.index(before: str.endIndex)])
                 }
             }
             obj?.pointee = NSNumber(value: (Double(str) ?? 0.0)/Double(pow(10.0, Double(minimumFractionDigits))))
