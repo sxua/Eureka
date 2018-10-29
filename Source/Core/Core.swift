@@ -444,6 +444,9 @@ open class FormViewController: UIViewController, FormViewControllerProtocol, For
 
     open override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 12.0, *) {
+          navigationOptions = .Disabled
+        }
         navigationAccessoryView = NavigationAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 44.0))
         navigationAccessoryView.autoresizingMask = .flexibleWidth
 
@@ -1001,8 +1004,12 @@ extension FormViewController {
     @objc open func keyboardWillShow(_ notification: Notification) {
         guard let table = tableView, let cell = table.findFirstResponder()?.formCell() else { return }
         let keyBoardInfo = notification.userInfo!
-        let endFrame = keyBoardInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
-
+        var endFrame = keyBoardInfo[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+        if #available(iOS 12.0, *) {
+          if endFrame.origin.y < 0 {
+            endFrame = CGRect(x: 0, y: UIScreen.main.bounds.height - endFrame.height + tableView.safeAreaInsets.bottom, width: endFrame.width, height: endFrame.height)
+          }
+        }
         let keyBoardFrame = table.window!.convert(endFrame.cgRectValue, to: table.superview)
         let newBottomInset = table.frame.origin.y + table.frame.size.height - keyBoardFrame.origin.y + rowKeyboardSpacing
         var tableInsets = table.contentInset
